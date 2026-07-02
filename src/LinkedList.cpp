@@ -4,22 +4,38 @@ struct Node
 {
     Node *prev;
     Node *next;
-    string value;
+    std::string value;
+
+    Node(std::string value)
+    {
+        this->value = value;
+        prev = nullptr;
+        next = nullptr;
+    }
 };
 
 class LinkedList
 {
 private:
-    /* data */
+    Node *head = nullptr;
+    Node *tail = nullptr;
+
 public:
-    LinkedList(/* args */);
+    LinkedList();
     ~LinkedList();
 };
 
-LinkedList::LinkedList(/* args */)
-{
-}
+LinkedList::LinkedList() : head(nullptr), tail(nullptr) {}
 
 LinkedList::~LinkedList()
 {
+    Node *node = head;
+    while (node != nullptr)
+    {
+        Node *temp = node;
+        node = temp->next;
+        delete (temp);
+    }
+    head = nullptr;
+    tail = nullptr;
 }
