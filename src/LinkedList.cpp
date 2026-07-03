@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream>
 
 struct Node
 {
@@ -23,6 +24,11 @@ private:
 public:
     LinkedList();
     ~LinkedList();
+    void addToFront(std::string value);
+    void addToBack(std::string value);
+    void delFront();
+    void delBack();
+    void printRange(int start, int end);
 };
 
 LinkedList::LinkedList() : head(nullptr), tail(nullptr) {}
@@ -38,4 +44,87 @@ LinkedList::~LinkedList()
     }
     head = nullptr;
     tail = nullptr;
+}
+
+void LinkedList::addToFront(std::string value)
+{
+    Node *node = new Node(value);
+    if (head == nullptr)
+    {
+        head = node;
+        tail = node;
+        return;
+    }
+    node->next = head;
+    head->prev = node;
+    head = node;
+}
+
+void LinkedList::addToBack(std::string value)
+{
+    Node *node = new Node(value);
+    if (tail == nullptr)
+    {
+        head = node;
+        tail = node;
+        return;
+    }
+
+    node->prev = tail;
+    tail->next = node;
+    tail = node;
+}
+
+void LinkedList::delFront()
+{
+    if (head == tail)
+    {
+        if (head == nullptr)
+        {
+            return;
+        }
+        delete (head);
+        head = nullptr;
+        tail = nullptr;
+        return;
+    }
+    Node *node = head;
+    head = head->next;
+    head->prev = nullptr;
+    delete (node);
+}
+
+void LinkedList::delBack()
+{
+    if (head == tail)
+    {
+        if (head == nullptr)
+        {
+            return;
+        }
+        delete (head);
+        head = nullptr;
+        tail = nullptr;
+        return;
+    }
+    Node *node = tail;
+    tail = tail->prev;
+    tail->next = nullptr;
+    delete (node);
+}
+
+void LinkedList::printRange(int start, int end)
+{
+    int cnt = 0;
+    Node *node = head;
+    while (cnt <= end && node != nullptr)
+    {
+        if (cnt >= start)
+        {
+            std::cout << node->value << '\n';
+        }
+        node = node->next;
+        cnt++;
+    }
+    free(node);
 }
