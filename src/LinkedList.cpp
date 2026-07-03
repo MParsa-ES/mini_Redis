@@ -1,35 +1,6 @@
 #include <string>
 #include <iostream>
-
-struct Node
-{
-    Node *prev;
-    Node *next;
-    std::string value;
-
-    Node(std::string value)
-    {
-        this->value = value;
-        prev = nullptr;
-        next = nullptr;
-    }
-};
-
-class LinkedList
-{
-private:
-    Node *head = nullptr;
-    Node *tail = nullptr;
-
-public:
-    LinkedList();
-    ~LinkedList();
-    void addToFront(std::string value);
-    void addToBack(std::string value);
-    void delFront();
-    void delBack();
-    void printRange(int start, int end);
-};
+#include <LinkedList.h>
 
 LinkedList::LinkedList() : head(nullptr), tail(nullptr) {}
 
