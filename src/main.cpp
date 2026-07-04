@@ -1,7 +1,9 @@
 #include <iostream>
 #include <string>
+#include <algorithm>
+#include <ctype.h>
 
-#include <HashMap.h>
+#include "HashMap.h"
 
 using namespace std;
 
@@ -12,7 +14,8 @@ enum COMMAND
     DEL,
     EXISTS,
     EXPIRE,
-    TTL
+    TTL,
+    UNKNOWN
 };
 
 COMMAND Transform(string cmd)
@@ -29,15 +32,18 @@ COMMAND Transform(string cmd)
         return EXPIRE;
     if (cmd == "TTL")
         return TTL;
+    return UNKNOWN;
 }
 
 int main()
 {
+    HashMap map;
     do
     {
         string cmd;
         string key;
         cin >> cmd >> key;
+        std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::toupper);
         COMMAND command = Transform(cmd);
         switch (command)
         {
@@ -45,27 +51,34 @@ int main()
         {
             string value;
             cin >> value;
-            
+            map.set(key, value);
             break;
         }
         case GET:
         {
+            map.get(key);
             break;
         }
         case DEL:
         {
+            map.del(key);
             break;
         }
         case EXISTS:
         {
+            map.exists(key);
             break;
         }
         case EXPIRE:
         {
+            int seconds;
+            cin >> seconds;
+            map.expire(key, seconds);
             break;
         }
         case TTL:
         {
+            map.TTL(key);
             break;
         }
 

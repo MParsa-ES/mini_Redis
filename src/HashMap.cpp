@@ -1,7 +1,7 @@
 #include <string>
 #include <iostream>
 #include <chrono>
-#include <HashMap.h>
+#include "HashMap.h"
 
 HashMap::HashMap()
 {
@@ -125,7 +125,7 @@ void HashMap::get(std::string key)
     HashNode *tmp = arr[hash];
     while (tmp != nullptr)
     {
-        if (tmp->key == key && checkTTL(tmp) > 0)
+        if (tmp->key == key)
         {
             std::cout << tmp->value << '\n';
             return;
