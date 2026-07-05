@@ -4,6 +4,7 @@
 #include <ctype.h>
 
 #include "HashMap.h"
+#include "ListHashMap.h"
 
 using namespace std;
 
@@ -15,6 +16,11 @@ enum COMMAND
     EXISTS,
     EXPIRE,
     TTL,
+    LPUSH,
+    RPUSH,
+    LPOP,
+    RPOP,
+    LRANGE,
     UNKNOWN
 };
 
@@ -32,12 +38,24 @@ COMMAND Transform(string cmd)
         return EXPIRE;
     if (cmd == "TTL")
         return TTL;
+    if (cmd == "LPUSH")
+        return LPUSH;
+    if (cmd == "RPUSH")
+        return RPUSH;
+    if (cmd == "LPOP")
+        return LPOP;
+    if (cmd == "RPOP")
+        return RPOP;
+    if (cmd == "LRANGE")
+        return LRANGE;
+
     return UNKNOWN;
 }
 
 int main()
 {
     HashMap map;
+    ListHashMap list;
     do
     {
         string cmd;
@@ -81,7 +99,37 @@ int main()
             map.TTL(key);
             break;
         }
-
+        case LPUSH:
+        {
+            string value;
+            cin >> value;
+            list.lpush(key, value);
+            break;
+        }
+        case RPUSH:
+        {
+            string value;
+            cin >> value;
+            list.rpush(key, value);
+            break;
+        }
+        case LPOP:
+        {
+            list.lpop(key);
+            break;
+        }
+        case RPOP:
+        {
+            list.rpop(key);
+            break;
+        }
+        case LRANGE:
+        {
+            int start, end;
+            cin >> start >> end;
+            list.lrange(key, start, end);
+            break;
+        }
         default:
             cout << "Unknown Command" << '\n';
             break;

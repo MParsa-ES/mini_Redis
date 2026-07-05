@@ -54,6 +54,7 @@ void LinkedList::delFront()
         {
             return;
         }
+        std::cout << head->value << '\n';
         delete (head);
         head = nullptr;
         tail = nullptr;
@@ -62,6 +63,7 @@ void LinkedList::delFront()
     Node *node = head;
     head = head->next;
     head->prev = nullptr;
+    std::cout << node->value << '\n';
     delete (node);
 }
 
@@ -73,6 +75,7 @@ void LinkedList::delBack()
         {
             return;
         }
+        std::cout << tail->value << '\n';
         delete (head);
         head = nullptr;
         tail = nullptr;
@@ -81,6 +84,7 @@ void LinkedList::delBack()
     Node *node = tail;
     tail = tail->prev;
     tail->next = nullptr;
+    std::cout << node->value << '\n';
     delete (node);
 }
 
@@ -97,5 +101,4 @@ void LinkedList::printRange(int start, int end)
         node = node->next;
         cnt++;
     }
-    free(node);
 }
