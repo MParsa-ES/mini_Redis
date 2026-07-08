@@ -13,16 +13,6 @@ ListHashMap::~ListHashMap()
 {
     for (int i = 0; i < CAPACITY; i++)
     {
-        if (arr[i] == nullptr)
-        {
-            continue;
-        }
-        if (arr[i]->next == nullptr)
-        {
-            delete (arr[i]);
-            arr[i] = nullptr;
-        }
-
         ListHashNode *node = arr[i];
         while (node != nullptr)
         {

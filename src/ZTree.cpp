@@ -109,7 +109,6 @@ void ZTree::insert(int score, std::string member)
     else
         parentEl->right = newNode;
 
-    // Cascade subtree size updates upward
     Node *temp = newNode->parent;
     while (temp != null)
     {
@@ -181,7 +180,6 @@ int ZTree::getRank(int score, std::string member)
     {
         if (score == current->score && member == current->member)
         {
-            // Rank is the number of elements strictly smaller than it
             return rankAccumulator + current->left->size;
         }
         if (isLess(score, member, current->score, current->member))
@@ -190,7 +188,6 @@ int ZTree::getRank(int score, std::string member)
         }
         else
         {
-            // If moving right, skip over the entire left subtree plus the current parent node
             rankAccumulator += current->left->size + 1;
             current = current->right;
         }
