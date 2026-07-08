@@ -6,6 +6,7 @@
 #include "HashMap.h"
 #include "ListHashMap.h"
 #include "ZSetHashMap.h"
+#include "GraphHashMap.h"
 
 using namespace std;
 
@@ -26,6 +27,11 @@ enum COMMAND
     ZREM,
     ZSCORE,
     ZRANK,
+    GCREATE,
+    GADDNODE,
+    GADDEDGE,
+    GCONNECTED,
+    GMST,
     UNKNOWN
 };
 
@@ -43,7 +49,7 @@ COMMAND Transform(string cmd)
         return EXPIRE;
     if (cmd == "TTL")
         return TTL;
-
+    // ==================================
     if (cmd == "LPUSH")
         return LPUSH;
     if (cmd == "RPUSH")
@@ -54,7 +60,7 @@ COMMAND Transform(string cmd)
         return RPOP;
     if (cmd == "LRANGE")
         return LRANGE;
-
+    // ===================================
     if (cmd == "ZADD")
         return ZADD;
     if (cmd == "ZREM")
@@ -63,6 +69,17 @@ COMMAND Transform(string cmd)
         return ZSCORE;
     if (cmd == "ZRANK")
         return ZRANK;
+    // ===================================
+    if (cmd == "GCREATE")
+        return GCREATE;
+    if (cmd == "GADDNODE")
+        return GADDNODE;
+    if (cmd == "GADDEDGE")
+        return GADDEDGE;
+    if (cmd == "GCONNECTED")
+        return GCONNECTED;
+    if (cmd == "GMST")
+        return GMST;
 
     return UNKNOWN;
 }
@@ -72,6 +89,7 @@ int main()
     HashMap map;
     ListHashMap list;
     ZSetHashMap set;
+    GraphHashMap graph;
     cout << "Mini Redis is Running..." << '\n';
     do
     {
@@ -174,6 +192,38 @@ int main()
             string member;
             cin >> member;
             set.rank(key, member);
+            break;
+        }
+        case GCREATE:
+        {
+            graph.GCreate(key);
+            break;
+        }
+        case GADDNODE:
+        {
+            string nodeName;
+            cin >> nodeName;
+            graph.GAddNode(key, nodeName);
+            break;
+        }
+        case GADDEDGE:
+        {
+            string src, dest;
+            int weight;
+            cin >> src >> dest >> weight;
+            graph.GAddEdge(key, src, dest, weight);
+            break;
+        }
+        case GCONNECTED:
+        {
+            string src, dest;
+            cin >> src >> dest;
+            graph.GConnected(key, src, dest);
+            break;
+        }
+        case GMST:
+        {
+            graph.GMST(key);
             break;
         }
         default:
