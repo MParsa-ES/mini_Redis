@@ -1,41 +1,36 @@
-#include <string>
-#include "ZSet.h"
-
-struct ZNode
-{
-    std::string key;
-    ZSet set;
-
-    ZNode *next;
-
-    ZNode(std::string k) : key(k), next(nullptr) {};
-};
-
-class ZSetHashMap
-{
-private:
-    static const int CAPACITY = 10009;
-
-    ZNode *arr[CAPACITY] = {nullptr};
-
-    int getHash(std::string key);
-
-public:
-    ZSetHashMap();
-    ~ZSetHashMap();
-
-    void add(std::string key, int score, std::string member);
-    void rem(std::string key, std::string member);
-    void score(std::string key, std::string member);
-    void rank(std::string key, std::string member);
-};
+#include "ZSetHashMap.h"
 
 ZSetHashMap::ZSetHashMap()
 {
+    for (int i = 0; i < CAPACITY; i++)
+    {
+        arr[i] = nullptr;
+    }
 }
 
 ZSetHashMap::~ZSetHashMap()
 {
+    for (int i = 0; i < CAPACITY; i++)
+    {
+        ZNode *current = arr[i];
+        while (current != nullptr)
+        {
+            ZNode *temp = current;
+            current = current->next;
+            delete temp;
+        }
+        arr[i] = nullptr;
+    }
+}
+
+int ZSetHashMap::getHash(std::string member)
+{
+    long long hash = 5381;
+    for (auto &&c : member)
+    {
+        hash = hash * 33 + c;
+    }
+    return hash % CAPACITY;
 }
 
 void ZSetHashMap::add(std::string key, int score, std::string member)

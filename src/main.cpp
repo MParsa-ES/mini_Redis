@@ -5,6 +5,7 @@
 
 #include "HashMap.h"
 #include "ListHashMap.h"
+#include "ZSetHashMap.h"
 
 using namespace std;
 
@@ -21,6 +22,10 @@ enum COMMAND
     LPOP,
     RPOP,
     LRANGE,
+    ZADD,
+    ZREM,
+    ZSCORE,
+    ZRANK,
     UNKNOWN
 };
 
@@ -38,6 +43,7 @@ COMMAND Transform(string cmd)
         return EXPIRE;
     if (cmd == "TTL")
         return TTL;
+
     if (cmd == "LPUSH")
         return LPUSH;
     if (cmd == "RPUSH")
@@ -49,6 +55,15 @@ COMMAND Transform(string cmd)
     if (cmd == "LRANGE")
         return LRANGE;
 
+    if (cmd == "ZADD")
+        return ZADD;
+    if (cmd == "ZREM")
+        return ZREM;
+    if (cmd == "ZSCORE")
+        return ZSCORE;
+    if (cmd == "ZRANK")
+        return ZRANK;
+
     return UNKNOWN;
 }
 
@@ -56,6 +71,8 @@ int main()
 {
     HashMap map;
     ListHashMap list;
+    ZSetHashMap set;
+    cout << "Mini Redis is Running..." << '\n';
     do
     {
         string cmd;
@@ -128,6 +145,35 @@ int main()
             int start, end;
             cin >> start >> end;
             list.lrange(key, start, end);
+            break;
+        }
+        case ZADD:
+        {
+            int score;
+            string member;
+            cin >> score >> member;
+            set.add(key, score, member);
+            break;
+        }
+        case ZREM:
+        {
+            string member;
+            cin >> member;
+            set.rem(key, member);
+            break;
+        }
+        case ZSCORE:
+        {
+            string member;
+            cin >> member;
+            set.score(key, member);
+            break;
+        }
+        case ZRANK:
+        {
+            string member;
+            cin >> member;
+            set.rank(key, member);
             break;
         }
         default:
