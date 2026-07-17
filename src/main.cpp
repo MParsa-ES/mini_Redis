@@ -32,6 +32,7 @@ enum COMMAND
     GADDEDGE,
     GCONNECTED,
     GMST,
+    EXIT,
     UNKNOWN
 };
 
@@ -80,6 +81,9 @@ COMMAND Transform(string cmd)
         return GCONNECTED;
     if (cmd == "GMST")
         return GMST;
+    // ====================================
+    if (cmd == "EXIT")
+        return EXIT;
 
     return UNKNOWN;
 }
@@ -95,13 +99,14 @@ int main()
     {
         string cmd;
         string key;
-        cin >> cmd >> key;
+        cin >> cmd;
         std::transform(cmd.begin(), cmd.end(), cmd.begin(), ::toupper);
         COMMAND command = Transform(cmd);
         switch (command)
         {
         case SET:
         {
+            cin >> key;
             string value;
             cin >> value;
             map.set(key, value);
@@ -109,21 +114,25 @@ int main()
         }
         case GET:
         {
+            cin >> key;
             map.get(key);
             break;
         }
         case DEL:
         {
+            cin >> key;
             map.del(key);
             break;
         }
         case EXISTS:
         {
+            cin >> key;
             map.exists(key);
             break;
         }
         case EXPIRE:
         {
+            cin >> key;
             int seconds;
             cin >> seconds;
             map.expire(key, seconds);
@@ -131,11 +140,13 @@ int main()
         }
         case TTL:
         {
+            cin >> key;
             map.TTL(key);
             break;
         }
         case LPUSH:
         {
+            cin >> key;
             string value;
             cin >> value;
             list.lpush(key, value);
@@ -143,6 +154,7 @@ int main()
         }
         case RPUSH:
         {
+            cin >> key;
             string value;
             cin >> value;
             list.rpush(key, value);
@@ -150,16 +162,19 @@ int main()
         }
         case LPOP:
         {
+            cin >> key;
             list.lpop(key);
             break;
         }
         case RPOP:
         {
+            cin >> key;
             list.rpop(key);
             break;
         }
         case LRANGE:
         {
+            cin >> key;
             int start, end;
             cin >> start >> end;
             list.lrange(key, start, end);
@@ -167,6 +182,7 @@ int main()
         }
         case ZADD:
         {
+            cin >> key;
             int score;
             string member;
             cin >> score >> member;
@@ -175,6 +191,7 @@ int main()
         }
         case ZREM:
         {
+            cin >> key;
             string member;
             cin >> member;
             set.rem(key, member);
@@ -182,6 +199,7 @@ int main()
         }
         case ZSCORE:
         {
+            cin >> key;
             string member;
             cin >> member;
             set.score(key, member);
@@ -189,6 +207,7 @@ int main()
         }
         case ZRANK:
         {
+            cin >> key;
             string member;
             cin >> member;
             set.rank(key, member);
@@ -196,11 +215,13 @@ int main()
         }
         case GCREATE:
         {
+            cin >> key;
             graph.GCreate(key);
             break;
         }
         case GADDNODE:
         {
+            cin >> key;
             string nodeName;
             cin >> nodeName;
             graph.GAddNode(key, nodeName);
@@ -208,6 +229,7 @@ int main()
         }
         case GADDEDGE:
         {
+            cin >> key;
             string src, dest;
             int weight;
             cin >> src >> dest >> weight;
@@ -216,6 +238,7 @@ int main()
         }
         case GCONNECTED:
         {
+            cin >> key;
             string src, dest;
             cin >> src >> dest;
             graph.GConnected(key, src, dest);
@@ -223,11 +246,17 @@ int main()
         }
         case GMST:
         {
+            cin >> key;
             graph.GMST(key);
             break;
         }
+        case EXIT:
+        {
+            return 0;
+        }
         default:
             cout << "Unknown Command" << '\n';
+            cin.clear();
             break;
         }
     } while (1);
