@@ -1,0 +1,41 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "type": "cppbuild",
+            "label": "Build Mini Redis",
+            "command": "g++",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "-O0",
+                "-std=c++17",
+                "${workspaceFolder}/src/main.cpp",
+                "${workspaceFolder}/src/Graph.cpp",
+                "${workspaceFolder}/src/GraphHashMap.cpp",
+                "${workspaceFolder}/src/HashMap.cpp",
+                "${workspaceFolder}/src/LinkCutTree.cpp",
+                "${workspaceFolder}/src/LinkedList.cpp",
+                "${workspaceFolder}/src/ListHashMap.cpp",
+                "${workspaceFolder}/src/ZSet.cpp",
+                "${workspaceFolder}/src/ZSetHashMap.cpp",
+                "${workspaceFolder}/src/ZTree.cpp",
+                "-I",
+                "${workspaceFolder}/include",
+                "-o",
+                "${workspaceFolder}/mini_redis.exe"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "compiler: g++"
+        }
+    ]
+}

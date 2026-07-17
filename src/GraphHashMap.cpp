@@ -116,8 +116,7 @@ void GraphHashMap::GMST(std::string graphName)
     {
         if (tmp->graphName == graphName)
         {
-            // tmp->graph.GComputeMST();
-            std::cout << "This Part is not Complete Yet";
+            tmp->graph.GMST();
             return;
         }
         tmp = tmp->next;

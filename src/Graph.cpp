@@ -10,6 +10,9 @@ Graph::Graph()
 
     dsuCapacity = 4;
     parent = new int[dsuCapacity];
+
+    mst_weight = 0;
+    lctNodes = new LCTNode *[dsuCapacity];
 }
 
 Graph::~Graph()
@@ -33,6 +36,12 @@ Graph::~Graph()
         }
         vertices[i] = nullptr;
     }
+    for (int i = 0; i < numberOfVertices; i++)
+    {
+        delete lctNodes[i];
+    }
+    delete[] lctNodes;
+    delete[] parent;
 }
 
 int Graph::getHash(std::string name)
@@ -51,7 +60,6 @@ void Graph::resizeDSU()
     dsuCapacity *= 2;
 
     int *newParent = new int[dsuCapacity];
-    int *newRank = new int[dsuCapacity];
 
     for (int i = 0; i < oldCapacity; i++)
     {
@@ -61,6 +69,14 @@ void Graph::resizeDSU()
     delete[] parent;
 
     parent = newParent;
+
+    LCTNode **newLCTNodes = new LCTNode *[dsuCapacity];
+    for (int i = 0; i < oldCapacity; i++)
+    {
+        newLCTNodes[i] = lctNodes[i];
+    }
+    delete[] lctNodes;
+    lctNodes = newLCTNodes;
 }
 
 int Graph::dsuFind(int i)
@@ -106,10 +122,13 @@ void Graph::GAddNode(std::string nodeName)
     }
 
     parent[numberOfVertices] = numberOfVertices;
+    lctNodes[numberOfVertices] = new LCTNode(-1000000000, false);
 
-    VertexHashNode *node = new VertexHashNode(nodeName, numberOfVertices++);
+    VertexHashNode *node = new VertexHashNode(nodeName, numberOfVertices);
     node->next = vertices[hash];
     vertices[hash] = node;
+
+    numberOfVertices++;
 }
 
 void Graph::GAddEdge(std::string src, std::string dest, int weight)
@@ -131,6 +150,7 @@ void Graph::GAddEdge(std::string src, std::string dest, int weight)
     if (srcNode == nullptr || destNode == nullptr)
     {
         std::cout << "Either the Source or Destination Node Doesn't Exiest" << '\n';
+        return;
     }
 
     EdgeNode *srcToDest = new EdgeNode(destNode->vertexID, weight);
@@ -143,8 +163,11 @@ void Graph::GAddEdge(std::string src, std::string dest, int weight)
     destNode->edges = destToSrc;
 
     dsuUnion(srcNode->vertexID, destNode->vertexID);
-}
 
+    LCTNode *u = lctNodes[srcNode->vertexID];
+    LCTNode *v = lctNodes[destNode->vertexID];
+    lct.addEdge(u, v, weight, mst_weight);
+}
 void Graph::GIsConnected(std::string src, std::string dest)
 {
     int srcHash = getHash(src);
@@ -175,4 +198,10 @@ void Graph::GIsConnected(std::string src, std::string dest)
     {
         std::cout << "0" << '\n';
     }
+}
+
+void Graph::GMST()
+{
+    std::cout << mst_weight << '\n';
+    return;
 }

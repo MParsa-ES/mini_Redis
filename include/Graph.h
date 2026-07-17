@@ -3,6 +3,7 @@
 
 #include <string>
 #include <iostream>
+#include "LinkCutTree.h"
 
 struct EdgeNode
 {
@@ -32,6 +33,10 @@ private:
     int *parent;
     int dsuCapacity;
 
+    long long mst_weight;
+    LCTNode **lctNodes;
+    LinkCutTree lct;
+
     VertexHashNode *vertices[CAPACITY];
 
     int getHash(std::string name);
@@ -46,6 +51,6 @@ public:
     void GAddNode(std::string nodeName);
     void GAddEdge(std::string src, std::string dest, int weight);
     void GIsConnected(std::string src, std::string dest);
+    void GMST();
 };
-
 #endif
