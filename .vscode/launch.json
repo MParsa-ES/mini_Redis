@@ -7,7 +7,7 @@
             "request": "launch",
             "program": "${workspaceFolder}/mini_redis.exe",
             "args": [],
-            "stopAtEntry": true,
+            "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
             "environment": [],
             "externalConsole": false,

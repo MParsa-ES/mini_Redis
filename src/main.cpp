@@ -257,6 +257,8 @@ int main()
         default:
             cout << "Unknown Command" << '\n';
             cin.clear();
+            char ch;
+            while (cin.get(ch) && ch != '\n');
             break;
         }
     } while (1);
