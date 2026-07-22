@@ -47,6 +47,7 @@ void ZSet::ZAdd(int score, std::string member)
             tree.del(tmp->score, member);
             tree.insert(score, member);
             tmp->score = score;
+            std::cout << "0" << '\n';
             return;
         }
         tmp = tmp->next;
@@ -55,6 +56,7 @@ void ZSet::ZAdd(int score, std::string member)
     node->next = arr[hash];
     arr[hash] = node;
     tree.insert(score, member);
+    std::cout << "1" << '\n';
 }
 
 void ZSet::ZRem(std::string member)
